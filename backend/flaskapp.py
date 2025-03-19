@@ -3,6 +3,10 @@ from finna_api import search_finna
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({"message": "Tervetuloa! Kysy minulta jotain!"})
+
 @app.route('/search', methods=['GET'])
 def search():
     # Required parameter
