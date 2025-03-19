@@ -14,7 +14,8 @@ def build_finna_filters(material_type='both', building='0/Piki/'):
     elif material_type == 'audiobook':
         filters.append('format_ext_str_mv:1/Book/AudioBook/')
     else:
-        filters.append('~format_ext_str_mv:0/Book/ OR 1/Book/AudioBook/')
+        filters.append('~format_ext_str_mv:0/Book/')  # Books
+        filters.append('~format_ext_str_mv:1/Book/AudioBook/')  # Audiobooks
 
     # Building filter (OR logic for multiple buildings)
     buildings = [b.strip() for b in building.split(',')]
