@@ -9,8 +9,10 @@ function App() {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5002';
+      console.log('API URL:', process.env.REACT_APP_API_URL);
       const response = await fetch(
-        `http://127.0.0.1:5002/search?query=${encodeURIComponent(query)}&material_type=${materialType}&building=${encodeURIComponent(building)}`
+        `${API_URL}/search?query=${encodeURIComponent(query)}&material_type=${materialType}&building=${encodeURIComponent(building)}`
       );
       const data = await response.json();
       setResults(data.records || []);
