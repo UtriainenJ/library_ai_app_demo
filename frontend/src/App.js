@@ -38,7 +38,20 @@ function App() {
         borderRadius: '8px',
         marginBottom: '20px'
       }}>
-        <h1 style={{ margin: 0 }}>📚 Finna API demo for Lennu Reads library assistant</h1>
+        <h1 style={{ 
+            margin: 0, 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '10px' 
+          }}>
+            <img 
+              src="/logo.png"
+              alt="Library logo"
+              style={{ width: '40px', height: '40px' }}
+            />
+            Finna API demo for Lennu Reads library assistant
+        </h1>
+
       </header>
 
       {/* Search Form */}
