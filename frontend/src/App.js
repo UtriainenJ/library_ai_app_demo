@@ -10,7 +10,6 @@ function App() {
     e.preventDefault();
     try {
       const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5002';
-      console.log('API URL:', process.env.REACT_APP_API_URL);
       const response = await fetch(
         `${API_URL}/search?query=${encodeURIComponent(query)}&material_type=${materialType}&building=${encodeURIComponent(building)}`
       );
@@ -26,26 +25,29 @@ function App() {
       padding: '20px',
       fontFamily: 'Arial, sans-serif',
       maxWidth: '1200px',
-      margin: '0 auto'
+      margin: '0 auto',
+      backgroundColor: '#1e1e1e',
+      color: '#e0e0e0',
+      minHeight: '100vh'
     }}>
       {/* Header */}
       <header style={{ 
-        backgroundColor: '#2c3e50',
-        color: 'white',
+        backgroundColor: '#2a2f2a',
+        color: '#a8ff60',
         padding: '20px',
         borderRadius: '8px',
         marginBottom: '20px'
       }}>
-        <h1 style={{ margin: 0 }}>📚 Finna Library Search</h1>
+        <h1 style={{ margin: 0 }}>📚 Finna API demo for Lennu Reads library assistant</h1>
       </header>
 
       {/* Search Form */}
       <form onSubmit={handleSearch} style={{ 
-        backgroundColor: '#f8f9fa',
+        backgroundColor: '#2b2b2b',
         padding: '20px',
         borderRadius: '8px',
         marginBottom: '20px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        boxShadow: '0 2px 6px rgba(0,0,0,0.6)'
       }}>
         <div style={{ marginBottom: '15px' }}>
           <label style={{ display: 'block', marginBottom: '5px' }}>
@@ -59,7 +61,9 @@ function App() {
                 width: '100%',
                 padding: '8px',
                 borderRadius: '4px',
-                border: '1px solid #ced4da',
+                border: '1px solid #444',
+                backgroundColor: '#1c1c1c',
+                color: '#d0ffd0',
                 marginTop: '5px'
               }}
             />
@@ -77,7 +81,9 @@ function App() {
                   width: '100%',
                   padding: '8px',
                   borderRadius: '4px',
-                  border: '1px solid #ced4da',
+                  border: '1px solid #444',
+                  backgroundColor: '#1c1c1c',
+                  color: '#d0ffd0',
                   marginTop: '5px'
                 }}
               >
@@ -98,7 +104,9 @@ function App() {
                   width: '100%',
                   padding: '8px',
                   borderRadius: '4px',
-                  border: '1px solid #ced4da',
+                  border: '1px solid #444',
+                  backgroundColor: '#1c1c1c',
+                  color: '#d0ffd0',
                   marginTop: '5px'
                 }}
               >
@@ -113,16 +121,15 @@ function App() {
         <button
           type="submit"
           style={{ 
-            backgroundColor: '#3498db',
-            color: 'white',
+            backgroundColor: '#3c6e47',
+            color: '#e0ffe0',
             padding: '10px 20px',
             border: 'none',
             borderRadius: '4px',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s'
+            cursor: 'pointer'
           }}
-          onMouseOver={(e) => e.target.style.backgroundColor = '#2980b9'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '#3498db'}
+          onMouseOver={(e) => e.target.style.backgroundColor = '#2d5b37'}
+          onMouseOut={(e) => e.target.style.backgroundColor = '#3c6e47'}
         >
           Search
         </button>
@@ -130,25 +137,22 @@ function App() {
 
       {/* Results Section */}
       <div>
-        <h2 style={{ color: '#2c3e50' }}>🔍 Results:</h2>
+        <h2 style={{ color: '#a8ff60' }}>🔍 Results:</h2>
         {results.length > 0 ? (
           <ul style={{ listStyle: 'none', padding: 0 }}>
             {results.map((item, index) => (
               <li
                 key={item.id}
                 style={{ 
-                  backgroundColor: index % 2 === 0 ? '#f8f9fa' : 'white',
-                  border: '1px solid #e9ecef',
+                  backgroundColor: index % 2 === 0 ? '#2a2a2a' : '#242424',
+                  border: '1px solid #333',
                   borderRadius: '8px',
                   padding: '15px',
                   marginBottom: '10px',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.4)'
                 }}
               >
-                <h3 style={{ 
-                  color: '#2c3e50',
-                  marginBottom: '10px'
-                }}>{item.title}</h3>
+                <h3 style={{ color: '#a8ff60', marginBottom: '10px' }}>{item.title}</h3>
                 
                 <div style={{ 
                   display: 'flex',
@@ -156,24 +160,21 @@ function App() {
                   gap: '20px',
                   marginBottom: '10px'
                 }}>
-                  <div>
-                    <strong>📅 Year:</strong> {item.year || 'N/A'}
-                  </div>
-                  <div>
-                    <strong>🗣️ Languages:</strong> {item.languages?.join(', ') || 'N/A'}
-                  </div>
+                  <div><strong>📅 Year:</strong> {item.year || 'N/A'}</div>
+                  <div><strong>🗣️ Languages:</strong> {item.languages?.join(', ') || 'N/A'}</div>
                 </div>
 
-                <div style={{ marginBottom: '10px '}}>
+                <div style={{ marginBottom: '10px' }}>
                   <strong>🏛️ Buildings:</strong> 
-                  {item.buildings?.length > 0 ? 
-                    item.buildings.map((b, i) => (
+                  {item.buildings
+                  ?.filter(b => isNaN(Number(b.translated || b.value))) // Remove purely numeric entries
+                    .map((b) => (
                       <span 
                         key={b.value}
                         style={{ 
                           display: 'inline-block',
-                          backgroundColor: '#e8f4ff',
-                          color: '#1a73e8',
+                          backgroundColor: '#264d3c',
+                          color: '#a8ff60',
                           padding: '4px 8px',
                           borderRadius: '4px',
                           margin: '2px',
@@ -182,39 +183,40 @@ function App() {
                       >
                         {b.translated || b.value}
                       </span>
-                    )) : 'Unknown'}
+                  ))}
                 </div>
 
-                <div style={{ marginBottom: '10px '}}>
+                <div style={{ marginBottom: '10px' }}>
                   <strong>📦 Formats:</strong> 
-                  {item.formats?.map((f, i) => (
+                  {[...new Set(item.formats?.map(f => f.translated || f.value))].map((format, i) => (
                     <span 
-                      key={f.value}
+                      key={format}
                       style={{ 
                         display: 'inline-block',
-                        backgroundColor: '#e6f3ff',
-                        color: '#1a73e8',
+                        backgroundColor: '#1e2e1e',
+                        color: '#a8d5a2',
                         padding: '4px 8px',
                         borderRadius: '4px',
                         margin: '2px',
                         fontSize: '0.9em'
                       }}
                     >
-                      {f.translated || f.value}
+                      {format}
                     </span>
                   ))}
                 </div>
 
+
                 <div>
                   <strong>✍️ Authors:</strong> 
                   {item.nonPresenterAuthors?.length > 0 ?
-                    item.nonPresenterAuthors.map((a, i) => (
+                    item.nonPresenterAuthors.map((a) => (
                       <span 
                         key={a.name}
                         style={{ 
                           display: 'inline-block',
-                          backgroundColor: '#fff3cd',
-                          color: '#664d03',
+                          backgroundColor: '#4e5134',
+                          color: '#fff7d6',
                           padding: '4px 8px',
                           borderRadius: '4px',
                           margin: '2px',
@@ -232,7 +234,7 @@ function App() {
         ) : (
           <p style={{ 
             fontStyle: 'italic',
-            color: '#6c757d',
+            color: '#888',
             textAlign: 'center',
             padding: '20px'
           }}>
